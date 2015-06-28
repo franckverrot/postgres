@@ -811,7 +811,8 @@ rewriteTargetListIU(List *targetList,
 												COERCE_IMPLICIT_CAST,
 												-1,
 												false,
-												false);
+												false,
+												NULL);
 				}
 			}
 
@@ -1066,7 +1067,8 @@ build_column_default(Relation rel, int attrno)
 								 atttype, atttypmod,
 								 COERCION_ASSIGNMENT,
 								 COERCE_IMPLICIT_CAST,
-								 -1);
+								 -1,
+								 NameStr(att_tup->attname));
 	if (expr == NULL)
 		ereport(ERROR,
 				(errcode(ERRCODE_DATATYPE_MISMATCH),
@@ -1176,7 +1178,8 @@ rewriteValuesRTE(RangeTblEntry *rte, Relation target_relation, List *attrnos)
 												COERCE_IMPLICIT_CAST,
 												-1,
 												false,
-												false);
+												false,
+												NULL);
 				}
 				newList = lappend(newList, new_expr);
 			}

@@ -362,7 +362,8 @@ EvaluateParams(PreparedStatement *pstmt, List *params,
 									 expected_type_id, -1,
 									 COERCION_ASSIGNMENT,
 									 COERCE_IMPLICIT_CAST,
-									 -1);
+									 -1,
+									 NULL);
 
 		if (expr == NULL)
 			ereport(ERROR,

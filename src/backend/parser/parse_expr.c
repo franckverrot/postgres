@@ -2007,7 +2007,8 @@ transformArrayExpr(ParseState *pstate, A_ArrayExpr *a,
 										 typmod,
 										 COERCION_EXPLICIT,
 										 COERCE_EXPLICIT_CAST,
-										 -1);
+										 -1,
+										 NULL);
 			if (newe == NULL)
 				ereport(ERROR,
 						(errcode(ERRCODE_CANNOT_COERCE),
@@ -2308,7 +2309,8 @@ transformXmlSerialize(ParseState *pstate, XmlSerialize *xs)
 								   TEXTOID, targetType, targetTypmod,
 								   COERCION_IMPLICIT,
 								   COERCE_IMPLICIT_CAST,
-								   -1);
+								   -1,
+								   NULL);
 	if (result == NULL)
 		ereport(ERROR,
 				(errcode(ERRCODE_CANNOT_COERCE),
@@ -2520,7 +2522,8 @@ transformTypeCast(ParseState *pstate, TypeCast *tc)
 								   targetType, targetTypmod,
 								   COERCION_EXPLICIT,
 								   COERCE_EXPLICIT_CAST,
-								   location);
+								   location,
+								   NULL);
 	if (result == NULL)
 		ereport(ERROR,
 				(errcode(ERRCODE_CANNOT_COERCE),

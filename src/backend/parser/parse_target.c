@@ -516,7 +516,8 @@ transformAssignedExpr(ParseState *pstate,
 								  attrtype, attrtypmod,
 								  COERCION_ASSIGNMENT,
 								  COERCE_IMPLICIT_CAST,
-								  -1);
+								  -1,
+								  colname);
 		if (expr == NULL)
 			ereport(ERROR,
 					(errcode(ERRCODE_DATATYPE_MISMATCH),
@@ -764,7 +765,8 @@ transformAssignmentIndirection(ParseState *pstate,
 								   targetTypeId, targetTypMod,
 								   COERCION_ASSIGNMENT,
 								   COERCE_IMPLICIT_CAST,
-								   -1);
+								   -1,
+								   "foo indirection");
 	if (result == NULL)
 	{
 		if (targetIsArray)
@@ -866,7 +868,8 @@ transformAssignmentSubscripts(ParseState *pstate,
 									   targetTypeId, targetTypMod,
 									   COERCION_ASSIGNMENT,
 									   COERCE_IMPLICIT_CAST,
-									   -1);
+									   -1,
+									   "foo subscript");
 		/* can fail if we had int2vector/oidvector, but not for true domains */
 		if (result == NULL)
 			ereport(ERROR,

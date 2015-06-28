@@ -258,7 +258,7 @@ ParseFuncOrColumn(ParseState *pstate, List *funcname, List *fargs,
 		 */
 		return coerce_type(pstate, linitial(fargs),
 						   actual_arg_types[0], rettype, -1,
-						   COERCION_EXPLICIT, COERCE_EXPLICIT_CALL, location);
+						   COERCION_EXPLICIT, COERCE_EXPLICIT_CALL, location, NULL);
 	}
 	else if (fdresult == FUNCDETAIL_NORMAL)
 	{
@@ -898,7 +898,7 @@ ParseTableSample(ParseState *pstate, char *samplemethod, Node *repeatable,
 						 parser_errposition(pstate, exprLocation(inarg))));
 
 			arg = coerce_type(pstate, arg, argtype, init_arg_types[nargs], -1,
-							  COERCION_IMPLICIT, COERCE_IMPLICIT_CAST, -1);
+							  COERCION_IMPLICIT, COERCE_IMPLICIT_CAST, -1, NULL);
 		}
 
 		fargs = lappend(fargs, arg);
@@ -1788,7 +1788,8 @@ unify_hypothetical_args(ParseState *pstate,
 							  commontype, -1,
 							  COERCION_IMPLICIT,
 							  COERCE_IMPLICIT_CAST,
-							  -1);
+							  -1,
+							  NULL);
 		actual_arg_types[i] = commontype;
 		args[aargpos] = coerce_type(pstate,
 									args[aargpos],
@@ -1796,7 +1797,8 @@ unify_hypothetical_args(ParseState *pstate,
 									commontype, -1,
 									COERCION_IMPLICIT,
 									COERCE_IMPLICIT_CAST,
-									-1);
+									-1,
+									NULL);
 		actual_arg_types[aargpos] = commontype;
 	}
 
@@ -1852,7 +1854,8 @@ make_fn_arguments(ParseState *pstate,
 								   declared_arg_types[i], -1,
 								   COERCION_IMPLICIT,
 								   COERCE_IMPLICIT_CAST,
-								   -1);
+								   -1,
+								   NULL);
 				na->arg = (Expr *) node;
 			}
 			else
@@ -1863,7 +1866,8 @@ make_fn_arguments(ParseState *pstate,
 								   declared_arg_types[i], -1,
 								   COERCION_IMPLICIT,
 								   COERCE_IMPLICIT_CAST,
-								   -1);
+								   -1,
+								   NULL);
 				lfirst(current_fargs) = node;
 			}
 		}

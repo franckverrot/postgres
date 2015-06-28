@@ -349,7 +349,8 @@ transformArraySubscripts(ParseState *pstate,
 												INT4OID, -1,
 												COERCION_ASSIGNMENT,
 												COERCE_IMPLICIT_CAST,
-												-1);
+												-1,
+												NULL);
 				if (subexpr == NULL)
 					ereport(ERROR,
 							(errcode(ERRCODE_DATATYPE_MISMATCH),
@@ -376,7 +377,8 @@ transformArraySubscripts(ParseState *pstate,
 										INT4OID, -1,
 										COERCION_ASSIGNMENT,
 										COERCE_IMPLICIT_CAST,
-										-1);
+										-1,
+										NULL);
 		if (subexpr == NULL)
 			ereport(ERROR,
 					(errcode(ERRCODE_DATATYPE_MISMATCH),
@@ -400,7 +402,8 @@ transformArraySubscripts(ParseState *pstate,
 										typeneeded, arrayTypMod,
 										COERCION_ASSIGNMENT,
 										COERCE_IMPLICIT_CAST,
-										-1);
+										-1,
+										NULL);
 		if (newFrom == NULL)
 			ereport(ERROR,
 					(errcode(ERRCODE_DATATYPE_MISMATCH),

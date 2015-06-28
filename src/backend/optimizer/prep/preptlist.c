@@ -276,6 +276,7 @@ expand_targetlist(List *tlist, int command_type,
 			Oid			attcollation = att_tup->attcollation;
 			Node	   *new_expr;
 
+      //RelationGetRelationName
 			switch (command_type)
 			{
 				case CMD_INSERT:
@@ -294,7 +295,8 @@ expand_targetlist(List *tlist, int command_type,
 													COERCE_IMPLICIT_CAST,
 													-1,
 													false,
-													false);
+													false,
+													NULL);
 					}
 					else
 					{

@@ -1406,7 +1406,8 @@ ReplaceVarsFromTargetList_callback(Var *var,
 										COERCE_IMPLICIT_CAST,
 										-1,
 										false,
-										false);
+										false,
+										NULL);
 		}
 		elog(ERROR, "could not find replacement targetlist entry for attno %d",
 			 var->varattno);

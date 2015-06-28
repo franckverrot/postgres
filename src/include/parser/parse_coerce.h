@@ -40,17 +40,18 @@ extern Node *coerce_to_target_type(ParseState *pstate,
 					  Oid targettype, int32 targettypmod,
 					  CoercionContext ccontext,
 					  CoercionForm cformat,
-					  int location);
+					  int location,
+					  char *colname);
 extern bool can_coerce_type(int nargs, Oid *input_typeids, Oid *target_typeids,
 				CoercionContext ccontext);
 extern Node *coerce_type(ParseState *pstate, Node *node,
 			Oid inputTypeId, Oid targetTypeId, int32 targetTypeMod,
-			CoercionContext ccontext, CoercionForm cformat, int location);
+			CoercionContext ccontext, CoercionForm cformat, int location, char *colname);
 extern Node *coerce_to_domain(Node *arg, Oid baseTypeId, int32 baseTypeMod,
 				 Oid typeId,
 				 CoercionForm cformat, int location,
 				 bool hideInputCoercion,
-				 bool lengthCoercionDone);
+				 bool lengthCoercionDone, char *colname);
 
 extern Node *coerce_to_boolean(ParseState *pstate, Node *node,
 				  const char *constructName);

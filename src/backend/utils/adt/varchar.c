@@ -267,6 +267,7 @@ bpchar(PG_FUNCTION_ARGS)
 	BpChar	   *source = PG_GETARG_BPCHAR_PP(0);
 	int32		maxlen = PG_GETARG_INT32(1);
 	bool		isExplicit = PG_GETARG_BOOL(2);
+	char		*colname = PG_GETARG_CSTRING(3);
 	BpChar	   *result;
 	int32		len;
 	char	   *r;
@@ -303,7 +304,8 @@ bpchar(PG_FUNCTION_ARGS)
 				if (s[i] != ' ')
 					ereport(ERROR,
 							(errcode(ERRCODE_STRING_DATA_RIGHT_TRUNCATION),
-							 errmsg("value too long for type character(%d)",
+							 errmsg("value too long for %s of type character(%d)",
+									colname,
 									maxlen)));
 		}
 
@@ -594,6 +596,7 @@ varchar(PG_FUNCTION_ARGS)
 	VarChar    *source = PG_GETARG_VARCHAR_PP(0);
 	int32		typmod = PG_GETARG_INT32(1);
 	bool		isExplicit = PG_GETARG_BOOL(2);
+	char		*colname = PG_GETARG_CSTRING(3);
 	int32		len,
 				maxlen;
 	size_t		maxmblen;
@@ -619,7 +622,8 @@ varchar(PG_FUNCTION_ARGS)
 			if (s_data[i] != ' ')
 				ereport(ERROR,
 						(errcode(ERRCODE_STRING_DATA_RIGHT_TRUNCATION),
-					  errmsg("value too long for type character varying(%d)",
+					  errmsg("value too long for %s of type character varying(%d)",
+							 colname ? colname : "(unknown column)",
 							 maxlen)));
 	}
 

@@ -6022,7 +6022,8 @@ get_cast_expression(PLpgSQL_execstate *estate,
 										  dsttype, dsttypmod,
 										  COERCION_ASSIGNMENT,
 										  COERCE_IMPLICIT_CAST,
-										  -1);
+										  -1,
+										  NULL);
 
 	/*
 	 * If there's no cast path according to the parser, fall back to using an
@@ -6046,7 +6047,8 @@ get_cast_expression(PLpgSQL_execstate *estate,
 											  dsttype, dsttypmod,
 											  COERCION_ASSIGNMENT,
 											  COERCE_IMPLICIT_CAST,
-											  -1);
+											  -1,
+											  NULL);
 	}
 
 	/* Note: we don't bother labeling the expression tree with collation */
