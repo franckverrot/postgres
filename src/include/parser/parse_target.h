@@ -42,4 +42,11 @@ extern TupleDesc expandRecordVariable(ParseState *pstate, Var *var,
 extern char *FigureColname(Node *node);
 extern char *FigureIndexColname(Node *node);
 
+/* Support for TransformExprCallback */
+typedef struct TransformExprState
+{
+	const char *column_name;
+	Oid expected_type;
+} TransformExprState;
+
 #endif   /* PARSE_TARGET_H */

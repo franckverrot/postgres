@@ -389,6 +389,17 @@ markTargetListOrigin(ParseState *pstate, TargetEntry *tle,
  * omits the column name list.  So we should usually prefer to use
  * exprLocation(expr) for errors that can happen in a default INSERT.
  */
+
+void
+TransformExprCallback(void *arg)
+{
+	TransformExprState *state = (TransformExprState *) arg;
+
+	errdetail("Coercion failed for column \"%s\" of type %s.",
+			state->column_name,
+			format_type_be(state->expected_type));
+}
+
 Expr *
 transformAssignedExpr(ParseState *pstate,
 					  Expr *expr,
@@ -405,6 +416,14 @@ transformAssignedExpr(ParseState *pstate,
 	Oid			attrcollation;	/* collation of target column */
 	ParseExprKind sv_expr_kind;
 
+	ErrorContextCallback errcallback;
+	TransformExprState testate;
+
+	/* Set up callback to identify error line number. */
+	errcallback.callback = TransformExprCallback;
+	errcallback.arg = (void *) &testate;
+	errcallback.previous = error_context_stack;
+	error_context_stack = &errcallback;
 	/*
 	 * Save and restore identity of expression type we're parsing.  We must
 	 * set p_expr_kind here because we can parse subscripts without going
@@ -424,6 +443,9 @@ transformAssignedExpr(ParseState *pstate,
 	attrtype = attnumTypeId(rd, attrno);
 	attrtypmod = rd->rd_att->attrs[attrno - 1]->atttypmod;
 	attrcollation = rd->rd_att->attrs[attrno - 1]->attcollation;
+
+	testate.column_name = colname;
+	testate.expected_type = attrtype;
 
 	/*
 	 * If the expression is a DEFAULT placeholder, insert the attribute's
@@ -529,6 +551,7 @@ transformAssignedExpr(ParseState *pstate,
 					 parser_errposition(pstate, exprLocation(orig_expr))));
 	}
 
+	error_context_stack = errcallback.previous;
 	pstate->p_expr_kind = sv_expr_kind;
 
 	return expr;
